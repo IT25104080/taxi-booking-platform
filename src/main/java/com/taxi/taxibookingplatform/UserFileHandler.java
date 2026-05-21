@@ -1,4 +1,4 @@
-package com.example.viberide_taxibookingsystem.user_management;
+package com.taxi.taxibookingplatform;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -54,6 +54,13 @@ public class UserFileHandler {
     public static User getUserById(String userId) throws IOException {
         for (User u : getAllUsers()) {
             if (u.getUserId().equals(userId)) return u;
+        }
+        return null;
+    }
+
+    public static User getUserByEmail(String email) throws IOException {
+        for (User u : getAllUsers()) {
+            if (u.getEmail().equalsIgnoreCase(email)) return u;
         }
         return null;
     }

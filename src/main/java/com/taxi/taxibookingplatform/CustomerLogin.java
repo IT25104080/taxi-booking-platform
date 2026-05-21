@@ -1,4 +1,4 @@
-package com.example.viberide_taxibookingsystem.user_management;
+package com.taxi.taxibookingplatform;
 
 public class CustomerLogin {
 

@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Login - TaxiGo</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
-<div class="max-w-md mx-auto bg-white p-8 rounded shadow mt-20">
-    <h2 class="text-2xl font-bold mb-4">Login</h2>
-    <div th:if="${error}" class="bg-red-100 text-red-700 p-2 mb-4 rounded" th:text="${error}"></div>
-    <div th:if="${message}" class="bg-green-100 text-green-700 p-2 mb-4 rounded" th:text="${message}"></div>
-    <form action="/taxi/user/login" method="post">
-        <input type="email" name="email" placeholder="Email" required class="w-full border p-2 mb-3 rounded">
-        <input type="password" name="password" placeholder="Password" required class="w-full border p-2 mb-3 rounded">
-        <button type="submit" class="bg-purple-600 text-white w-full py-2 rounded">Login</button>
-    </form>
-    <p class="mt-4 text-center">No account? <a href="/taxi/user/register" class="text-purple-600">Register</a></p>
-</div>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: html(~{::title}, ~{::main})}">
+<head><title th:fragment="title">Login – TaxiGo</title></head>
+<main th:fragment="main">
+    <section class="py-16 container mx-auto px-4">
+        <div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold text-purple-700 mb-6 text-center">Sign In</h2>
+            <div th:if="${error}" class="bg-red-100 text-red-700 p-3 mb-4 rounded" th:text="${error}"></div>
+            <div th:if="${message}" class="bg-green-100 text-green-700 p-3 mb-4 rounded" th:text="${message}"></div>
+            <div th:if="${param.redirect == 'book'}" class="bg-blue-100 text-blue-800 p-3 mb-4 rounded text-sm">
+                Please sign in to book a ride.
+            </div>
+            <form th:action="@{/user/login}" method="post" class="space-y-4">
+                <input type="hidden" name="redirect" th:if="${param.redirect != null}" th:value="${param.redirect[0]}">
+                <input type="email" name="email" placeholder="Email" required
+                       class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-purple-500 outline-none">
+                <input type="password" name="password" placeholder="Password" required
+                       class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-purple-500 outline-none">
+                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700">
+                    Login
+                </button>
+            </form>
+            <p class="mt-6 text-center text-gray-600">
+                No account? <a th:href="@{/user/register}" class="text-purple-600 font-semibold">Register</a>
+            </p>
+        </div>
+    </section>
+</main>
 </html>

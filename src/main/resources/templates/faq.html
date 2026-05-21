@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: html(~{::title}, ~{::main})}">
+<head><title th:fragment="title">FAQ – TaxiGo</title></head>
+<main th:fragment="main">
+    <section class="hero-gradient text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold">Frequently Asked Questions</h1>
+        </div>
+    </section>
+    <section class="py-16 container mx-auto px-4 max-w-3xl space-y-4">
+        <details class="bg-white rounded-lg shadow p-6" open>
+            <summary class="font-bold cursor-pointer">How do I book a ride?</summary>
+            <p class="text-gray-600 mt-3">Create an account, sign in, and go to Book Ride. Enter pickup and drop-off locations, date, time, and vehicle type.</p>
+        </details>
+        <details class="bg-white rounded-lg shadow p-6">
+            <summary class="font-bold cursor-pointer">How is the fare calculated?</summary>
+            <p class="text-gray-600 mt-3">Fares start at LKR 500 plus an estimated distance charge. Premium and XL vehicles have multipliers. Premium members get 10% off.</p>
+        </details>
+        <details class="bg-white rounded-lg shadow p-6">
+            <summary class="font-bold cursor-pointer">Can I cancel a booking?</summary>
+            <p class="text-gray-600 mt-3">Yes. From your dashboard, cancel any confirmed booking before pickup time.</p>
+        </details>
+        <details class="bg-white rounded-lg shadow p-6">
+            <summary class="font-bold cursor-pointer">What payment methods are accepted?</summary>
+            <p class="text-gray-600 mt-3">Cash, card, and mobile payments are accepted. Set your preference in your profile.</p>
+        </details>
+        <details class="bg-white rounded-lg shadow p-6">
+            <summary class="font-bold cursor-pointer">Is TaxiGo available outside Colombo?</summary>
+            <p class="text-gray-600 mt-3">We primarily serve Greater Colombo and airport routes. Contact us for inter-city enquiries.</p>
+        </details>
+        <p class="text-center mt-8 text-gray-600">Still have questions? <a th:href="@{/contact}" class="text-purple-600 font-semibold">Contact us</a></p>
+    </section>
+</main>
+</html>

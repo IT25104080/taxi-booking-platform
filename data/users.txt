@@ -1,3 +1,1 @@
-ADM1|Admin User|admin@taxi.com|9999999999|admin123|admin|2024-01-01USR1779028380238|Pasindu|rukshanpasindu71@gmail.com|0766561344|WE04|regular|2026-05-17 20:03:00
-USR1779028475459|Thihansa|thihansa10@gmail.com|0712234567|WE05|regular|2026-05-17 20:04:35
-USR1779032350826|Buddhima Rajapaksha|buddhimarajapaksha29@gmail.com|0712234567|WE06|regular|2026-05-17 21:09:10
+PASSENGER,USR201f22c8,Buddhima Rajapaksha,buddhimarajapaksha29@gmail.com,asdfghjkl,0712234567,2026-05-21,,CARD
