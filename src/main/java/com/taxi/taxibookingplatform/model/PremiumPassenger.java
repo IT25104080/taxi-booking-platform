@@ -1,4 +1,4 @@
-package com.taxi.taxibookingplatform;
+package com.taxi.taxibookingplatform.model;
 
 import java.time.LocalDate;
 

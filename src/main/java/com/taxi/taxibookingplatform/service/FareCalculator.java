@@ -1,4 +1,4 @@
-package com.taxi.taxibookingplatform;
+package com.taxi.taxibookingplatform.service;
 
 public final class FareCalculator {
 

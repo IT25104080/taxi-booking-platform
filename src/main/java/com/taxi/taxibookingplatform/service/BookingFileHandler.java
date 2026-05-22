@@ -1,4 +1,6 @@
-package com.taxi.taxibookingplatform;
+package com.taxi.taxibookingplatform.service;
+
+import com.taxi.taxibookingplatform.model.Booking;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.List;
 
 public class BookingFileHandler {
 
-    private static final String FILE_PATH = "data/bookings.txt";
+    private static final String FILE_PATH = "data/booking.txt";
 
     public static void addBooking(Booking booking) throws IOException {
         new File("data").mkdirs();

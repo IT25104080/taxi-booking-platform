@@ -1,5 +1,8 @@
-package com.taxi.taxibookingplatform;
+package com.taxi.taxibookingplatform.controller;
 
+import com.taxi.taxibookingplatform.model.ContactMessage;
+import com.taxi.taxibookingplatform.service.ContactFileHandler;
+import com.taxi.taxibookingplatform.service.TaxiFileHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,15 +26,22 @@ public class HomeController {
         return "about";
     }
 
+    @GetMapping("/taxis")
+    public String taxis(Model model) throws IOException {
+        model.addAttribute("taxis", TaxiFileHandler.getAllTaxis());
+        return "taxis";
+    }
+
+    @GetMapping("/taxi")
+    public String taxiAlias(Model model) throws IOException {
+        return taxis(model);
+    }
+
     @GetMapping("/services")
     public String services() {
         return "services";
     }
 
-    @GetMapping("/pricing")
-    public String pricing() {
-        return "pricing";
-    }
 
     @GetMapping("/faq")
     public String faq() {

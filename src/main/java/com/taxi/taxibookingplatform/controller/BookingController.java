@@ -1,5 +1,13 @@
-package com.taxi.taxibookingplatform;
+package com.taxi.taxibookingplatform.controller;
 
+import com.taxi.taxibookingplatform.model.Booking;
+import com.taxi.taxibookingplatform.model.PremiumPassenger;
+import com.taxi.taxibookingplatform.model.User;
+import com.taxi.taxibookingplatform.model.UserView;
+import com.taxi.taxibookingplatform.service.BookingFileHandler;
+import com.taxi.taxibookingplatform.service.FareCalculator;
+import com.taxi.taxibookingplatform.service.SessionKeys;
+import com.taxi.taxibookingplatform.service.UserFileHandler;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +39,7 @@ public class BookingController {
             @RequestParam String pickup,
             @RequestParam String dropoff,
             @RequestParam String pickupDate,
-            @RequestParam String pickupTime,
+            @RequestParam(required = false) String pickupTime,
             @RequestParam(defaultValue = "standard") String vehicleType,
             @RequestParam(required = false) String notes,
             HttpSession session,
@@ -45,21 +53,53 @@ public class BookingController {
         boolean premium = user instanceof PremiumPassenger;
         double fare = FareCalculator.estimate(pickup, dropoff, vehicleType, premium);
 
+        LocalTime parsedTime = (pickupTime == null || pickupTime.isBlank())
+                ? LocalTime.now() : LocalTime.parse(pickupTime);
+
         Booking booking = new Booking(
                 "BK" + UUID.randomUUID().toString().replace("-", "").substring(0, 8),
                 user.getUserId(),
                 pickup.trim(),
                 dropoff.trim(),
                 LocalDate.parse(pickupDate),
-                LocalTime.parse(pickupTime),
+                parsedTime,
                 vehicleType,
-                "CONFIRMED",
+                "PENDING_PAYMENT",
                 fare,
                 notes != null ? notes.trim() : "",
                 LocalDateTime.now()
         );
         BookingFileHandler.addBooking(booking);
-        return "redirect:/user/dashboard?booked=true";
+        return "redirect:/payment?bookingId=" + booking.getBookingId();
+    }
+
+    @GetMapping("/payment")
+    public String showPaymentPortal(@RequestParam String bookingId, HttpSession session, Model model) throws IOException {
+        User user = getLoggedInUser(session);
+        if (user == null) {
+            return "redirect:/user/login";
+        }
+        Booking booking = BookingFileHandler.getBookingById(bookingId);
+        if (booking == null || !booking.getUserId().equals(user.getUserId())) {
+            return "redirect:/user/dashboard";
+        }
+        model.addAttribute("booking", booking);
+        model.addAttribute("user", UserView.from(user));
+        return "payment";
+    }
+
+    @PostMapping("/payment/complete")
+    public String completePayment(@RequestParam String bookingId, HttpSession session) throws IOException {
+        User user = getLoggedInUser(session);
+        if (user == null) {
+            return "redirect:/user/login";
+        }
+        Booking booking = BookingFileHandler.getBookingById(bookingId);
+        if (booking != null && booking.getUserId().equals(user.getUserId())) {
+            BookingFileHandler.updateStatus(bookingId, "CONFIRMED");
+            return "redirect:/user/dashboard?booked=true";
+        }
+        return "redirect:/user/dashboard";
     }
 
     @PostMapping("/user/bookings/cancel")
